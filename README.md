@@ -87,17 +87,6 @@ Several features (e.g., `bcount`, `dnlt`, `nppm`, `sirs`) did not have documenta
 - **Model Robustness:** Random Forest provided robust performance among the models tested.
 - **Value of Undocumented Features:** Even features lacking formal description contributed useful predictive information.
 
-### Recommendations
-1. **Adopt the Tuned Random Forest Model:**  
-   Use the optimized Random Forest for final predictions.
-2. **Maintain a Consistent Preprocessing Pipeline:**  
-   Ensure scaling, SMOTE balancing, and feature encoding are applied uniformly across datasets.
-3. **Document Assumptions:**  
-   Clearly document interpretations of undocumented features (e.g., treat `bcount` as a proxy for urban density).
-4. **Feature Engineering Iterations:**  
-   Further explore feature engineering, such as creating interaction terms or aggregated indices, to potentially boost performance.
-5. **Ongoing Evaluation:**  
-   Regularly revalidate model performance with cross-validation and error analysis, especially for underrepresented classes.
 
 ## How to Run the Project
 1. **Preprocessing and Feature Engineering:**  
@@ -106,10 +95,11 @@ Several features (e.g., `bcount`, `dnlt`, `nppm`, `sirs`) did not have documenta
    Execute model training, hyperparameter tuning, and evaluation sections within the notebook.
 3. **Generate Predictions and Create Submission:**  
    Use the final tuned model to predict test set probabilities and create `submission.csv`.
-4. **Save and Load Models:**  
+4. **Load the Model:**  
    Use joblib to save the model for future use:
    ```python
    import joblib
-   joblib.dump(rf_model_tuned, 'rf_model_tuned.pkl')
-   # To load later:
-   # rf_model_tuned = joblib.load('rf_model_tuned.pkl')
+
+   rf_model_tuned = joblib.load('rf_model_tuned.pkl')
+
+   ```
