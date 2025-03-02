@@ -4,12 +4,11 @@
 This project aims to develop a robust predictive model for land cover classification using geospatial, environmental, and remote sensing data. Our goal is to classify each observation into one of three land cover types:
 - **Buildings**
 - **Cropland**
-- **Woody Vegetation Cover** (with >60% cover)
+- **Woody Vegetation Cover** 
 
-The final deliverable includes a submission CSV file with occurrence probabilities for each class and a technical report summarizing our methodology, findings, and recommendations.
 
 ## Project Structure
-- **README.md**: This file.
+
 - **crop_Data_Preprocessing.ipynb**: Jupyter Notebook detailing data preprocessing, feature engineering, target encoding, SMOTE balancing, model training, and evaluation.
 - **model/**: Directory to store saved models (e.g., `rf_model_tuned.pkl`).
 - **submission.csv**: Final submission file with predicted probabilities.
@@ -26,17 +25,47 @@ Several features (e.g., `bcount`, `dnlt`, `nppm`, `sirs`) did not have documenta
 ## Methodology
 
 ### Data Preprocessing
+
+Assessed missing values using a heatmap , which revealed that most features had complete data and some missing values in a few columns . bio1,cec20,ph20,snd20 had missing values which showed some pattern, in that the missing values was occured in the same rows. However, upon further exploration, it showed no correlation. The missing values, were only in few columns, so I went on to delete them
+
+The lstd( Average day-time land surface temp. (deg. C , 2001-2020) and lstn ( Average night-time land surface temp. (deg. C, 2001-2020) also had missing values. Upon investigation of their Spatial Distribution, it showed that the points that were with missing data were all near the southern/southwestern coast, with one row farther west. This could have been caused by persistent cloud cover, coaster influence, some other technical issues.
+![Spatial Distribution](Images/Spatial_dist.png)
+
+For this case, the missing data was imputed using KNNImputer, which included latitude (lat), longitude (lon), and elevation (mdem). The reason to use KNN Imputer was so that it could look for the closest points and average their known LST values, and therefore this would help capture coastal vs inland differences better.
+
 1. **Exploratory Data Analysis (EDA):**  
-   - Visualized missing values using heatmaps.
-   - Examined distributions and correlations among features.
-   - Verified that nearly all columns were complete, except for a few temperature measurements.
+
+For EDA, we looked to answer the following Reasearch Questions:
+How are the land cover classes distributed geographically?
+A scatter plot of latitude vs. longitude, color-coded by landcover, revealed that building-related pixels are relatively sparse and clustered (urban centers), while cropland and woody areas are more widespread.
+This visualization validated the imbalanced distribution (buildings were the minority class) and helped identify spatial clusters.
+![Geo Dist](Images/geo_dist.png)
+
+ 2. Which environmental/remote sensing features correlate with land cover classes?
+
+Which environmental and remote sensing features correlate with the land cover classes?
+An extended correlation matrix showed that features such as bcount (Which we assimed to be building count) have a strong (negative) correlation, while others (e.g., dnlt, nppm) show moderate positive correlations, indicating they help distinguish natural from built-up areas.
+
+![Geo Dist](Images/env_corr_land.png)
+
+How does building count (bcount) influence the classification?
+Boxplots demonstrated that observations labeled as “building” have significantly higher bcount values than cropland or woody areas, emphasizing urban density as a key predictor.The fact that building count only appeared in the building category confirmed our assumption that bcount, represents building count.
+
+![bcount](Images/build_cont.png)
+
+
+What is the relationship between topographic features (e.g., slope, elevation) and land cover?
+The analysis of slope and elevation (mdem) via boxplots showed that buildings tend to occur in flatter, lower-lying regions, while woody areas are associated with steeper slopes and higher elevations.
+
+![bcount](Images/topography.png)
+
 
 2. **Target Engineering & Encoding:**  
    - Combined the target indicators into a unified target variable `landcover` using a hierarchical rule:
      - If `building` is "Yes" → label as **building**
      - Else if `cropland` is "Yes" → label as **cropland**
      - Else if `wcover` indicates ">60%" → label as **woody**
-     - (A revised rule was applied to avoid a generic "other" category.)
+
    - Converted `landcover` to numeric labels using `LabelEncoder`.
 
 3. **Handling Class Imbalance:**  
@@ -88,18 +117,3 @@ Several features (e.g., `bcount`, `dnlt`, `nppm`, `sirs`) did not have documenta
 - **Value of Undocumented Features:** Even features lacking formal description contributed useful predictive information.
 
 
-## How to Run the Project
-1. **Preprocessing and Feature Engineering:**  
-   Open and run `crop_Data_Preprocessing.ipynb` to preprocess data, encode targets, balance classes with SMOTE, and scale features.
-2. **Model Training and Evaluation:**  
-   Execute model training, hyperparameter tuning, and evaluation sections within the notebook.
-3. **Generate Predictions and Create Submission:**  
-   Use the final tuned model to predict test set probabilities and create `submission.csv`.
-4. **Load the Model:**  
-   Use joblib to save the model for future use:
-   ```python
-   import joblib
-
-   rf_model_tuned = joblib.load('rf_model_tuned.pkl')
-
-   ```
