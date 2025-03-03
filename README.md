@@ -9,10 +9,11 @@ This project aims to develop a robust predictive model for land cover classifica
 
 ## Project Structure
 
-- **crop_Data_Preprocessing.ipynb**: Jupyter Notebook detailing data preprocessing, feature engineering, target encoding, SMOTE balancing, model training, and evaluation.
-- **model/**: Directory to store saved models (e.g., `rf_model_tuned.pkl`).
-- **submission.csv**: Final submission file with predicted probabilities.
-- **requirements.txt**: List of Python dependencies.
+- **Notebooks**: Contains Jupyter Notebooks used for experimentation.
+- **Models/**: Directory to store saved models.
+- **Dataset**: Contains the initial dataset and cleaned dataset
+- **Images**: Contains Images used for the project
+- **Technical_Report.pdf**: Technical Report
 
 ## Data Description
 The dataset contains 15,811 training samples and a corresponding test set. Key columns include:
