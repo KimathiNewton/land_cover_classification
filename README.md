@@ -86,6 +86,8 @@ The analysis of slope and elevation (mdem) via boxplots showed that buildings te
    
    Random Forest emerged as the top performer based on cross-validation metrics.
 
+![bcount](Images/Model_perf.png)
+
 2. **Hyperparameter Tuning:**  
    GridSearchCV was used to optimize Random Forest parameters. The best parameters found were:
    - `n_estimators`: 300
@@ -108,12 +110,23 @@ The analysis of slope and elevation (mdem) via boxplots showed that buildings te
 ### Model Saving
 - The final model was saved using joblib (`rf_model_tuned.pkl`) for future inference without retraining.
 
-## Critical Findings and Recommendations
+## Critical Findings
+* Dominant Role of bcount:
+The bcount column (which upon googling, and based on the analysis I took it to represent building count) feature is the single most important variable, indicating that urban density is a strong indicator for land cover classification in this region.
 
-### Critical Findings
-- **bcount is Dominant:** Building count is the single most influential feature.
-- **SMOTE Effectiveness:** Balancing classes improved performance, particularly for the minority building class.
-- **Model Robustness:** Random Forest provided robust performance among the models tested.
-- **Value of Undocumented Features:** Even features lacking formal description contributed useful predictive information.
+* Environmental Gradients Matter:
+Moderate correlations of features like log-transformed dnlt and nppm suggest that natural environmental signals play a key role in distinguishing woody vegetation from cropland and urban areas.
+
+* Effective Handling of Imbalance:
+SMOTE balanced the classes successfully, leading to improved performance on the minority "building" class.
+Value of Undocumented Features:
+Despite lacking formal descriptions, features like dnlt and nppm were shown to add valuable signals to the model.
+
+## Recommendations 
+
+* Adopt the Tuned Random Forest Model:Use the optimized Random Forest classifier for final predictions, as it offers the best and tuned performance and interpretable feature importances.
+
+* Incorporate Domain Expertise: Some assumptions were made concerning the undocumented features. Validate assumptions regarding the features (e.g., bcount as building count) through domain experts.
+
 
 
