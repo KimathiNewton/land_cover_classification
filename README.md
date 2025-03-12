@@ -69,19 +69,11 @@ The analysis of slope and elevation (mdem) via boxplots showed that buildings te
 ![bcount](Images/topography.png)
 
 
-2. **Target Engineering & Encoding:**  
-   - Combined the target indicators into a unified target variable `landcover` using a hierarchical rule:
-     - If `building` is "Yes" → label as **building**
-     - Else if `cropland` is "Yes" → label as **cropland**
-     - Else if `wcover` indicates ">60%" → label as **woody**
-
-   - Converted `landcover` to numeric labels using `LabelEncoder`.
-
-3. **Handling Class Imbalance:**  
+2. **Handling Class Imbalance:**  
    - The initial class distribution was imbalanced (e.g., building: 1,308, cropland: ~5,232, woody: 7,511).
    - SMOTE was applied to oversample the minority class (buildings) to achieve balance across classes.
 
-4. **Feature Scaling:**  
+3. **Feature Scaling:**  
    - StandardScaler was used to standardize numeric features to ensure all variables contribute equally during model training.
 
 ### Model Training and Evaluation
@@ -110,7 +102,7 @@ The analysis of slope and elevation (mdem) via boxplots showed that buildings te
 
 4. **Evaluation Metrics:**  
    - Evaluated using Accuracy, Macro-averaged F1 Score, and multi-class ROC-AUC.
-   - Random Forest achieved ~74.2% accuracy, ~81.1% macro F1, and ~87.8% ROC-AUC on the evaluation set.
+   - Random Forest achieved 83.5% macro F1, and 91.2% ROC-AUC on the evaluation set.
 
 ### Test Predictions and Final Submission
 - The final tuned Random Forest model was applied to the test set (after scaling) to predict class probabilities.
