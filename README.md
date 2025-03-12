@@ -6,6 +6,14 @@ This project aims to develop a robust predictive model for land cover classifica
 - **Cropland**
 - **Woody Vegetation Cover** 
 
+The original target variables were provided as three separate indicators: building, cropland, and wcover. These were merged into a unified target variable (landcover) based on the following rules:
+```
+If building is "Yes": assign Buildings.
+Else if cropland is "Yes": assign Cropland.
+Else if wcover meets the specified threshold (e.g., ">60%" for dense woody cover or ">30%" for transitional woody): assign Woody Vegetation Cover (with ambiguous cases reclassified accordingly).
+```
+The that did not meet the criteria, and labeled as “Other” were were reclassified based on NDVI and plantation data—and any remaining “Other” cases were dropped.
+NDVI (Normalized Difference Vegetation Index) is a measure of vegetation density, calculated as (NIR - Red) / (NIR + Red) using MODIS reflectance bands (mb2 for NIR and mb1 for Red).Plantation counts (lcc8–lcc14) served as indicators for cropland.
 
 ## Project Structure
 
@@ -15,7 +23,7 @@ This project aims to develop a robust predictive model for land cover classifica
 - **Images**: Contains Images used for the project
 - **Technical_Report.pdf**: Technical Report
 
-## Data Description
+## Data Understanding
 The dataset contains 15,811 training samples and a corresponding test set. Key columns include:
 - **Identifiers & Coordinates**: `subid`, `lat`, `lon` (and projected coordinates `X`, `Y`).
 - **Target Indicators**: `building`, `cropland`, `wcover`
