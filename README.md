@@ -10,9 +10,9 @@ The original target variables were provided as three separate indicators: buildi
 ```
 If building is "Yes": assign Buildings.
 Else if cropland is "Yes": assign Cropland.
-Else if wcover meets the specified threshold (e.g., ">60%" for dense woody cover or ">30%" for transitional woody): assign Woody Vegetation Cover (with ambiguous cases reclassified accordingly).
+Else if wcover meets the specified threshold (e.g., ">60%"): assign Woody.
 ```
-The that did not meet the criteria, and labeled as “Other” were were reclassified based on NDVI and plantation data—and any remaining “Other” cases were dropped.
+Those that did not meet the criteria, and labeled as “Other” were were reclassified based on NDVI and plantation data—and any remaining “Other” cases were dropped.
 NDVI (Normalized Difference Vegetation Index) is a measure of vegetation density, calculated as (NIR - Red) / (NIR + Red) using MODIS reflectance bands (mb2 for NIR and mb1 for Red).Plantation counts (lcc8–lcc14) served as indicators for cropland.
 
 ## Project Structure
